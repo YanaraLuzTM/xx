@@ -1,0 +1,1 @@
+Uncompress and install in C:\TRNSYS18\Studio\Proformas

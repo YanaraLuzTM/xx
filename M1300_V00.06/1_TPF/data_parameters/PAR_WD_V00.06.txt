@@ -1,0 +1,64 @@
+***ASSIGN*** (ASSIGN IN SIMTUDIO MUST BE COMENTED. IF NO ERROR)
+!ASSIGN "data_meteo\DK-Kobenhavn-Taastrup-61800.tm2" 11 ***PAR***
+!ASSIGN "data_meteo\AT-Graz-112400.tm2" 12
+!ASSIGN "data_meteo\ES-Barcelona-City-81800.tm2" 13
+!ASSIGN "data_meteo\ES-Madrid-Barajas-82210.tm2" 14
+!ASSIGN "data_meteo\CH-Santiago.tm2" 15
+!ASSIGN "data_meteo\CH-Mina-Chuquicamata.tm2" 16
+!ASSIGN "data_components\IAM_GOT_WeSSun_1R.txt" 103
+!ASSIGN "data_components\IAM_GOT_WeSSun_2R.txt" 104
+!ASSIGN "data_components\IAM_LIN.txt" 105
+!ASSIGN "data_components\IAM_LIN_WeSSun_1R.txt" 106
+!ASSIGN "data_components\IAM_LIN_WeSSun_2R.txt" 107
+!ASSIGN "data_demmand\Qdemmand1_kWh.txt" 801 
+
+*LOGICAL UNIT ASSIGN "PROBANDO PROBANDO"
+!Meteo		10-89
+!Mascaras	90-99
+!WESSUN	 	100-129
+!PTC	 	130-139
+!Fresnel	140-149
+!Calderas 	300-399
+!Chillers 	400-499
+!Demandas 	800-899
+!Outputs 	900-999   
+EQUATION 5  
+ONLINE = 0 !-
+M0100_LU_MET = EQL(PAR_LOC,1)*11+EQL(PAR_LOC,2)*12+EQL(PAR_LOC,3)*13+EQL(PAR_LOC,4)*14+EQL(PAR_LOC,5)*15+EQL(PAR_LOC,6)*16 !-
+M1300_LU_MSK = 90 !-
+M1300_LU_COL = (EQL(PAR_STC,1)+EQL(PAR_STC,2))*103+EQL(PAR_STC,3)*103+EQL(PAR_STC,4)*104+EQL(PAR_STC,5)*105+EQL(PAR_STC,6)*106+EQL(PAR_STC,7)*107 !-
+M8100_LU_DEM = 801
+
+*LOCATION AND METEO PARAMETERS    "PROBANDO PROBANDO"
+EQUATION 12  
+PAR_LOC = 4 !
+Type_Meteofile=6!  The type of file which is to be read: 1 = TMY format, 2 = TMY2 format, 3 = Energy+ format, 4 = IWEC format, 5 = CWEC format, 6=Metoenorm for TRNSYS format, 7 = TMY3 format, 8 = German TRY 2004 format, 8 = German TRY 2010 format	
+Mode_TiltSurf=1 !The radiation processing mode that will be used to calculate the radiation components on a tilted surface: 1= Isotropic Sky Model, 2 = Hay and Davies Model, 3 = Reindl Model, 4 = Perez 1988 Model.  5 = Perez 1999 Model. Refer to the documentation for the Type 16 model for more information.
+Gth = EQL(PAR_LOC,1)*988.27+EQL(PAR_LOC,2)*1143.27+EQL(PAR_LOC,3)*1443.75+EQL(PAR_LOC,4)*1661.53+EQL(PAR_LOC,5)*1843.28+EQL(PAR_LOC,6)*2359.84 !kWh/m2
+Gbh = EQL(PAR_LOC,1)*436.11+EQL(PAR_LOC,2)*482.44+EQL(PAR_LOC,3)*731.47+EQL(PAR_LOC,4)*1008.62+EQL(PAR_LOC,5)*1206.82+EQL(PAR_LOC,6)*1677.30 !kWh/m2
+Gdh = Gth-Gbh !kWh/m2
+Itmax = 1100*WTOKJPH !kJ/h.m2  (EQL(PAR_LOC,1)*1100+EQL(PAR_LOC,2)*1050+EQL(PAR_LOC,3)*1050+EQL(PAR_LOC,4)*1000+EQL(PAR_LOC,5)*1000)*WTOKJPH !kJ/h.m2
+Itnom = EQL(PAR_LOC,1)*511.03+EQL(PAR_LOC,2)*537.89+EQL(PAR_LOC,3)*604.22+EQL(PAR_LOC,4)*668.48+EQL(PAR_LOC,5)*718.02+EQL(PAR_LOC,6)*861.92 !W/m2
+Lat = EQL(PAR_LOC,1)*55.6667+EQL(PAR_LOC,2)*46.9833+EQL(PAR_LOC,3)*41.3879+EQL(PAR_LOC,4)*40.4167+EQL(PAR_LOC,5)*-33.4667+EQL(PAR_LOC,6)*-22.3094 !°
+TAirAve = EQL(PAR_LOC,1)*7.99+EQL(PAR_LOC,2)*8.41+EQL(PAR_LOC,3)*16.27+EQL(PAR_LOC,4)*13.91+EQL(PAR_LOC,5)*14.01+EQL(PAR_LOC,6)*11.85 !°C
+ATAir = 35 !°C
+TAirTime = GT(Lat,0)*222+LT(Lat,0)*42 !
+*GENERAL PARAMETERS   
+EQUATION 16
+KJPHTOkW = 1/3600 !kJ/h to kW
+KJPHTOMW = 1/3600000 !kJ/h to MW
+WTOKJPH = 3.6 !W to kJ/h
+GrRef = 0.2 !-
+PI = 3.141592654 !-
+eta_pump = 0.7 !-
+TCOLDW = TAirAve !°C
+CpAgua = 4.19 !kJ/kg.K
+RoAgua = 1000 !kg/m3
+MuAgua = 3600*0.0005 !kg/m.h
+Kagua = 3.6*0.65 !kJ/h.m.K
+IntSurConvCoef = 6 !kJ/h.m2.K
+ExtSurConvCoef = 13 !kJ/h.m2.K
+SoilCond = 8.72 !kJ/h.m.K
+SoilDensity = 3200 !kg/m3 "PROBANDO PROBANDO"
+SoilCp = 0.84 !kJ/kg.K 
+   
